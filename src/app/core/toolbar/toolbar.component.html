@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="flex justify-between">
+  <a routerLink="/" class="font-bold text-lg">Document RAG System</a>
+  
+  <ng-container *ngIf="(isLoggedIn$ | async); else loggedOutButtons">
+    <!-- Show this when the user IS logged in -->
+    <div>
+      <a mat-button routerLink="/dashboard">Dashboard</a>
+      <a mat-button routerLink="/users">User Management</a>
+      <button mat-button (click)="logout()">Logout</button>
+    </div>
+  </ng-container>
+
+  <ng-template #loggedOutButtons>
+    <!-- Show this when the user is NOT logged in -->
+    <div>
+      <a mat-button routerLink="/auth/login">Login</a>
+      <a mat-button routerLink="/auth/register">Register</a>
+    </div>
+  </ng-template>
+</mat-toolbar>

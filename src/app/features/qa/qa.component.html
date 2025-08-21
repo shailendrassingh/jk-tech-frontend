@@ -1,0 +1,89 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-4 md:p-8">
+  <!-- Q&A Column -->
+<div class="md:col-span-2">
+    <div class="p-4 border-b flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-600 rounded-t-2xl text-white">
+    <h2 class="text-lg font-semibold align-middle flex items-center justify-center">Ask a Question</h2>
+    <select
+      [(ngModel)]="selectedDocIds"
+      aria-placeholder="Select Document"
+      placeholder="Select Document"
+      class="w-52 px-3 py-2 rounded-lg bg-white text-gray-800 text-sm shadow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    >
+      <option *ngFor="let doc of documents" [value]="doc.id">
+        {{ doc.title }}
+      </option>
+    </select>
+  </div>
+  <!-- Ask a Question Card -->
+  <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+    <form [formGroup]="qaForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      <!-- Question Textarea -->
+      <div>
+        <textarea
+          id="question"
+          formControlName="question"
+          rows="4"
+          placeholder="e.g., What were the key findings in the Q1 report?"
+          class="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-gray-800"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="qaForm.invalid || isLoading"
+        class="w-fit px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+      >
+        <span *ngIf="!isLoading">Ask</span>
+
+        <!-- Spinner -->
+        <svg
+          *ngIf="isLoading"
+          class="animate-spin h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          ></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- Answer Card -->
+  <div *ngIf="answer" class="mt-8 bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Answer</h2>
+    <p class="whitespace-pre-wrap text-gray-700">{{ answer }}</p>
+  </div>
+</div>
+  <!-- Document Selection Column -->
+  <div class="md:col-span-1">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Select Context</mat-card-title>
+        <mat-card-subtitle>Choose which documents to ask questions about. Select none to search all.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let doc of (documents$ | async)">
+            <mat-checkbox (change)="onDocSelectionChange($event, doc.id)" class="w-full">
+              {{ doc.title }}
+            </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

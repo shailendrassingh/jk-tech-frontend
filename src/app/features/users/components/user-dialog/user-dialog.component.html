@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>{{ isEditMode ? 'Edit User' : 'Add New User' }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" class="flex flex-col gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input class="bg-white" matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input class="bg-white" matInput formControlName="email" type="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="!isEditMode">
+      <mat-label>Password</mat-label>
+      <input class="bg-white" matInput formControlName="password" type="password">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles" multiple>
+        <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+  <!-- Action Buttons -->
+  <div mat-dialog-actions class="flex justify-end gap-3 pt-6 border-t border-gray-200/50" style="display: flex; justify-content: flex-end; gap: 16px; padding-right: 24px">
+    <button 
+      mat-stroked-button 
+      (click)="onCancel()"
+      class="px-6 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 hover:shadow-md transform hover:scale-105">
+      Cancel
+    </button>
+    
+    <button 
+      mat-raised-button 
+      color="primary" 
+      [disabled]="form.invalid" 
+      (click)="onSave()"
+      class="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100">
+      {{ isEditMode ? 'Update User' : 'Create User' }}
+    </button>
+  </div>

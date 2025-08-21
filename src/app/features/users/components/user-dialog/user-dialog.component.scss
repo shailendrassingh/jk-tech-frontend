@@ -1,0 +1,10 @@
+// Remove the ugly vertical notch line in Angular Material outline inputs
+.mat-form-field-appearance-outline .mat-form-field-outline-start,
+.mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border: none !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border: 1px solid #d1d5db; // Tailwind gray-300
+  border-radius: 0.5rem;     // rounded-lg
+}

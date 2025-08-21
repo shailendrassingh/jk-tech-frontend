@@ -1,0 +1,80 @@
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside 
+    [ngClass]="{ 'w-64': !isCollapsed, 'w-20': isCollapsed }"
+    class="bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col transition-all duration-300">
+
+    <!-- Profile -->
+    <div class="flex items-center space-x-3 p-6 border-b border-blue-600">
+      <div *ngIf="isCollapsed" class="w-12 h-12 text-white flex items-center justify-center font-bold text-lg">
+        VI
+      </div>
+      <div *ngIf="!isCollapsed" class="w-12 h-12 rounded-full bg-white text-blue-700 flex items-center justify-center font-bold text-lg">
+        VI
+      </div>
+      <div *ngIf="!isCollapsed">
+        <h2 class="font-semibold" style="margin: 0;">VectorIQ</h2>
+        <p class="text-sm text-blue-200">Ask Question</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 mt-6">
+      <ul class="space-y-3 px-2">
+        <li>
+          <a routerLink="/users" routerLinkActive="bg-blue-600"
+             class="flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+             [attr.title]="isCollapsed ? 'Users' : null">
+            <span class="material-icons">group</span>
+            <span *ngIf="!isCollapsed">Users</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/documents" routerLinkActive="bg-blue-600"
+             class="flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+             [attr.title]="isCollapsed ? 'Documents' : null">
+            <span class="material-icons">description</span>
+            <span *ngIf="!isCollapsed">Documents</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/qna-chat" routerLinkActive="bg-blue-600"
+             class="flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+             [attr.title]="isCollapsed ? 'Q&A' : null">
+            <span class="material-icons">chat</span>
+            <span *ngIf="!isCollapsed">Q&A</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Topbar -->
+    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+          <!-- Collapse Button -->
+    <div class="flex justify-center items-center">
+      <a (click)="toggleSidebar()" 
+              class="cursor-pointer p-2 rounded-lg hover:bg-gray-200 transition">
+        <span class="material-icons text-lg">{{ isCollapsed ? 'menu' : 'menu' }}</span>
+    </a>
+    </div>
+      <div class="flex items-center gap-4">
+        <span class="text-gray-600">Welcome, {{ auth.getCurrentUser()?.name }}</span>
+        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow"
+                (click)="auth.logout()">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="p-6 overflow-auto flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Router Outlet for Dynamic Pages -->
+      <div class="col-span-full">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
